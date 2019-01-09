@@ -1,7 +1,7 @@
 {
-  "name": "eosjs",
+  "name": "cyberwayjs",
   "version": "20.0.0-beta3",
-  "description": "Talk to eos API",
+  "description": "Talk to cyberway API",
   "main": "dist/index.js",
   "scripts": {
     "prepare": "npm run build",
@@ -20,10 +20,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EOSIO/eosjs.git"
+    "url": "https://github.com/GolosChain/cyberwayjs.git"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "eosjs-ecc": "^4.0.1",
     "text-encoding": "^0.6.4"
   },

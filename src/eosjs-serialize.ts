@@ -527,7 +527,7 @@ export class SerialBuffer {
 
 /** Is this a supported ABI version? */
 export function supportedAbiVersion(version: string) {
-    return version.startsWith("eosio::abi/1.");
+    return version.startsWith("cyberway::abi/1.");
 }
 
 function checkDateParse(date: string) {

@@ -18,7 +18,7 @@ export default class JsSignatureProvider implements SignatureProvider {
     /** @param privateKeys private keys to sign with */
     constructor(privateKeys: string[]) {
         for (const k of privateKeys) {
-            const pub = convertLegacyPublicKey(ecc.PrivateKey.fromString(k).toPublic().toString());
+            const pub = convertLegacyPublicKey(ecc.PrivateKey.fromString(k).toPublic().toString('GLS'));
             this.keys.set(pub, k);
             this.availableKeys.push(pub);
         }
@@ -35,7 +35,7 @@ export default class JsSignatureProvider implements SignatureProvider {
             new Buffer(chainId, "hex"), new Buffer(serializedTransaction), new Buffer(new Uint8Array(32)),
         ]);
         const signatures = requiredKeys.map(
-            (pub) => ecc.Signature.sign(signBuf, this.keys.get(convertLegacyPublicKey(pub))).toString(),
+            (pub) => ecc.Signature.sign(signBuf, this.keys.get(convertLegacyPublicKey(pub))).toString('GLS'),
         );
         return { signatures, serializedTransaction };
     }
