@@ -1,5 +1,5 @@
 .DS_Store
-dist/
-dist-web/
+#dist/
+#dist-web/
 node_modules/
 docs-build/
