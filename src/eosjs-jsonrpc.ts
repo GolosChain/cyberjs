@@ -46,7 +46,6 @@ export default class JsonRpc implements AuthorityProvider, AbiProvider {
             const f = this.fetchBuiltin;
             response = await f(this.endpoint + path, {
                 method: "POST",
-                mode: "no-cors",
                 body: JSON.stringify(body),
             });
             json = await response.json();
