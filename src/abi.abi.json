@@ -112,6 +112,20 @@
             ]
         },
         {
+            "name": "event_def",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "name"
+                },
+                {
+                    "name": "type",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "table_def",
             "base": "",
             "fields": [
@@ -190,6 +204,10 @@
                 {
                     "name": "actions",
                     "type": "action_def[]"
+                },
+                {
+                    "name": "events",
+                    "type": "event_def[]"
                 },
                 {
                     "name": "tables",
