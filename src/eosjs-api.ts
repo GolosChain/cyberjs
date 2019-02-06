@@ -213,8 +213,8 @@ export default class Api {
      *      use it as a reference for TAPoS, and expire the transaction `expireSeconds` after that block's time.
      * @returns node response if `broadcast`, `{signatures, serializedTransaction}` if `!broadcast`
      */
-    public async transact(transaction: any, { broadcast = true, sign = true, blocksBehind, expireSeconds }:
-        { broadcast?: boolean; sign?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
+    public async transact(transaction: any, { broadcast = true, sign = true, providebw = true, blocksBehind, expireSeconds }:
+        { broadcast?: boolean; sign?: boolean; providebw?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
         let info: GetInfoResult;
 
         if (!this.chainId) {
@@ -239,8 +239,15 @@ export default class Api {
         const serializedTransaction = this.serializeTransaction(transaction);
         let pushTransactionArgs: PushTransactionArgs  = { serializedTransaction, signatures: [] };
 
+
         if (sign) {
             const availableKeys = await this.signatureProvider.getAvailableKeys();
+            if (providebw) {
+                transaction = {
+                    ...transaction,
+                    actions: transaction.actions.filter((action: ser.Action) => action.name !== "providebw"),
+                };
+            }
             const requiredKeys = await this.authorityProvider.getRequiredKeys({ transaction, availableKeys });
             pushTransactionArgs = await this.signatureProvider.sign({
                 chainId: this.chainId,
