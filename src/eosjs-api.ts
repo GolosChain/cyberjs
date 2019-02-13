@@ -213,7 +213,7 @@ export default class Api {
      *      use it as a reference for TAPoS, and expire the transaction `expireSeconds` after that block's time.
      * @returns node response if `broadcast`, `{signatures, serializedTransaction}` if `!broadcast`
      */
-    public async transact(transaction: any, { broadcast = true, sign = true, providebw = true, blocksBehind, expireSeconds }:
+    public async transact(transaction: any, { broadcast = true, sign = true, providebw = false, blocksBehind, expireSeconds }:
         { broadcast?: boolean; sign?: boolean; providebw?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
         let info: GetInfoResult;
 
