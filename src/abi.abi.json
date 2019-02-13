@@ -72,10 +72,6 @@
                 {
                     "name": "type",
                     "type": "string"
-                },
-                {
-                    "name": "ricardian_contract",
-                    "type": "string"
                 }
             ]
         },
@@ -212,10 +208,6 @@
                 {
                     "name": "tables",
                     "type": "table_def[]"
-                },
-                {
-                    "name": "ricardian_clauses",
-                    "type": "clause_pair[]"
                 },
                 {
                     "name": "error_messages",
