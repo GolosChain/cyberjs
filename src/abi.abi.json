@@ -134,6 +134,10 @@
                     "type": "string"
                 },
                 {
+                    "name": "scope_type",
+                    "type": "string"
+                },
+                {
                     "name": "indexes",
                     "type": "index_def[]"
                 }
