@@ -158,6 +158,8 @@ export default class Api {
         this.serialize(buffer, "transaction", {
             max_net_usage_words: 0,
             max_cpu_usage_ms: 0,
+            max_ram_kbytes: 0,
+            max_storage_kbytes: 0,
             delay_sec: 0,
             context_free_actions: [],
             actions: [],
