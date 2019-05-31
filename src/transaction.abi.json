@@ -90,6 +90,14 @@
                     "type": "uint8"
                 },
                 {
+                    "name": "max_ram_kbytes",
+                    "type": "varuint32"
+                },
+                {
+                    "name": "max_storage_kbytes",
+                    "type": "varuint32"
+                },
+                {
                     "name": "delay_sec",
                     "type": "varuint32"
                 }
