@@ -156,6 +156,14 @@ export default class Api {
     public serializeTransaction(transaction: any): Uint8Array {
         const buffer = new ser.SerialBuffer({ textEncoder: this.textEncoder, textDecoder: this.textDecoder });
         this.serialize(buffer, "transaction", {
+            ...this.getDefaultTransactionHeader(),
+            ...transaction,
+        });
+        return buffer.asUint8Array();
+    }
+
+    public getDefaultTransactionHeader(): object {
+        return {
             max_net_usage_words: 0,
             max_cpu_usage_ms: 0,
             max_ram_kbytes: 0,
@@ -164,9 +172,7 @@ export default class Api {
             context_free_actions: [],
             actions: [],
             transaction_extensions: [],
-            ...transaction,
-        });
-        return buffer.asUint8Array();
+        };
     }
 
     /** Convert a transaction from binary. Leaves actions in hex. */
