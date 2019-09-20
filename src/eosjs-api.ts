@@ -216,14 +216,14 @@ export default class Api {
      * Named Parameters:
      *    * `broadcast`: broadcast this transaction?
      *    * `sign`: sign this transaction?
-     *    * `forceSignByKey`: set specific keys for signing (for partial transaction signing).
+     *    * `partialSigning`: set specific actors for signing (for partial transaction signing).
      *    * If both `blocksBehind` and `expireSeconds` are present,
      *      then fetch the block which is `blocksBehind` behind head block,
      *      use it as a reference for TAPoS, and expire the transaction `expireSeconds` after that block's time.
      * @returns node response if `broadcast`, `{signatures, serializedTransaction}` if `!broadcast`
      */
-    public async transact(transaction: any, { broadcast = true, sign = true, forceSignByKey = null, providebw = false, blocksBehind, expireSeconds }:
-        { broadcast?: boolean; sign?: boolean; forceSignByKey?: string | null, providebw?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
+    public async transact(transaction: any, { broadcast = true, sign = true, partialSigning = null, providebw = false, blocksBehind, expireSeconds }:
+        { broadcast?: boolean; sign?: boolean; partialSigning?: string[] | null, providebw?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
         let info: GetInfoResult;
 
         if (!this.chainId) {
@@ -249,27 +249,32 @@ export default class Api {
         let pushTransactionArgs: PushTransactionArgs  = { serializedTransaction, signatures: [] };
 
         if (sign) {
-            let requiredKeys;
+            let trx = transaction;
 
-            if (forceSignByKey) {
-                requiredKeys = [forceSignByKey];
-            } else {
-                const availableKeys = await this.signatureProvider.getAvailableKeys();
+            const availableKeys = await this.signatureProvider.getAvailableKeys();
 
-                let trxWithoutProviding = transaction;
-
-                if (providebw) {
-                    trxWithoutProviding = {
-                        ...transaction,
-                        actions: transaction.actions.filter((action: ser.Action) => action.name !== "providebw"),
-                    };
-                }
-
-                requiredKeys = await this.authorityProvider.getRequiredKeys({
-                    transaction: trxWithoutProviding,
-                    availableKeys,
-                });
+            if (providebw) {
+                trx = {
+                    ...trx,
+                    actions: trx.actions.filter((action: ser.Action) => action.name !== "providebw"),
+                };
             }
+
+            if (partialSigning) {
+                trx = {
+                    ...trx,
+                    actions: trx.actions.map((action: ser.Action) => ({
+                        ...action,
+                        authorization: action.authorization
+                            .filter((auth: ser.Authorization) => partialSigning.includes(auth.actor)),
+                    })),
+                };
+            }
+
+            const requiredKeys = await this.authorityProvider.getRequiredKeys({
+                transaction: trx,
+                availableKeys,
+            });
 
             pushTransactionArgs = await this.signatureProvider.sign({
                 chainId: this.chainId,
