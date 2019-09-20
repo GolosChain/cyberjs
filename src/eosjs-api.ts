@@ -289,6 +289,14 @@ export default class Api {
         return pushTransactionArgs;
     }
 
+    public async getChainId() {
+        if (!this.chainId) {
+            this.chainId = (await this.rpc.get_info()).chain_id;
+        }
+
+        return this.chainId;
+    }
+
     /** Broadcast a signed transaction */
     public async pushSignedTransaction({ signatures, serializedTransaction }: PushTransactionArgs): Promise<any> {
         return this.rpc.push_transaction({
