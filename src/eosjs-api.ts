@@ -216,6 +216,7 @@ export default class Api {
      * Named Parameters:
      *    * `broadcast`: broadcast this transaction?
      *    * `sign`: sign this transaction?
+     *    * `forceSignByKey`: set specific keys for signing (for partial transaction signing).
      *    * If both `blocksBehind` and `expireSeconds` are present,
      *      then fetch the block which is `blocksBehind` behind head block,
      *      use it as a reference for TAPoS, and expire the transaction `expireSeconds` after that block's time.
