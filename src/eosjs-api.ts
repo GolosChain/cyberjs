@@ -256,17 +256,17 @@ export default class Api {
             } else {
                 const availableKeys = await this.signatureProvider.getAvailableKeys();
 
-                let extractRequiredKeysForTrx = transaction;
+                let trxWithoutProviding = transaction;
 
                 if (providebw) {
-                    extractRequiredKeysForTrx = {
+                    trxWithoutProviding = {
                         ...transaction,
                         actions: transaction.actions.filter((action: ser.Action) => action.name !== "providebw"),
                     };
                 }
 
                 requiredKeys = await this.authorityProvider.getRequiredKeys({
-                    transaction: extractRequiredKeysForTrx,
+                    transaction: trxWithoutProviding,
                     availableKeys,
                 });
             }
