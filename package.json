@@ -16,7 +16,12 @@
     "docs-serve": "python -m SimpleHTTPServer",
     "docs-publish": "sh .docs/scripts/publish.sh"
   },
-  "author": "block.one",
+  "files": [
+    "dist",
+    "dist-web",
+    "src"
+  ],
+  "author": "Good guys",
   "license": "MIT",
   "repository": {
     "type": "git",
