@@ -217,13 +217,14 @@ export default class Api {
      *    * `broadcast`: broadcast this transaction?
      *    * `sign`: sign this transaction?
      *    * `signByActors`: set specific actors for signing (for partial transaction signing).
+     *    * `skipSignByActors`: skip signing by actors (for bandwidth provide additional signing).
      *    * If both `blocksBehind` and `expireSeconds` are present,
      *      then fetch the block which is `blocksBehind` behind head block,
      *      use it as a reference for TAPoS, and expire the transaction `expireSeconds` after that block's time.
      * @returns node response if `broadcast`, `{signatures, serializedTransaction}` if `!broadcast`
      */
-    public async transact(transaction: any, { broadcast = true, sign = true, signByActors = null, providebw = false, blocksBehind, expireSeconds }:
-        { broadcast?: boolean; sign?: boolean; signByActors?: string[] | null, providebw?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
+    public async transact(transaction: any, { broadcast = true, sign = true, signByActors = null, skipSignByActors = null, providebw = false, blocksBehind, expireSeconds }:
+        { broadcast?: boolean; sign?: boolean; signByActors?: string[] | null, skipSignByActors?: string[] | null, providebw?: boolean; blocksBehind?: number; expireSeconds?: number; } = {}): Promise<any> {
         let info: GetInfoResult;
 
         if (!this.chainId) {
@@ -267,6 +268,17 @@ export default class Api {
                         ...action,
                         authorization: action.authorization
                             .filter((auth: ser.Authorization) => signByActors.includes(auth.actor)),
+                    })),
+                };
+            }
+
+            if (skipSignByActors) {
+                trx = {
+                    ...trx,
+                    actions: trx.actions.map((action: ser.Action) => ({
+                        ...action,
+                        authorization: action.authorization
+                            .filter((auth: ser.Authorization) => !skipSignByActors.includes(auth.actor)),
                     })),
                 };
             }
