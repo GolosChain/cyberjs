@@ -1,10 +1,10 @@
 {
   "name": "cyberwayjs",
-  "version": "20.0.0-beta8",
+  "version": "20.0.0-beta9",
   "description": "Talk to cyberway API",
   "main": "dist/index.js",
   "scripts": {
-    "prepare": "npm run build",
+    "prepublish": "npm run clean && npm run build",
     "test": "jest",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "lint-fix": "tslint -c tslint.json src/**/*.ts --fix",
@@ -16,7 +16,12 @@
     "docs-serve": "python -m SimpleHTTPServer",
     "docs-publish": "sh .docs/scripts/publish.sh"
   },
-  "author": "block.one",
+  "files": [
+    "dist",
+    "dist-web",
+    "src"
+  ],
+  "author": "Good guys",
   "license": "MIT",
   "repository": {
     "type": "git",
