@@ -1,6 +1,6 @@
 {
   "name": "cyberwayjs",
-  "version": "20.0.0-beta9",
+  "version": "20.0.0-beta9-1",
   "description": "Talk to cyberway API",
   "main": "dist/index.js",
   "scripts": {
