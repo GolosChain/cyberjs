@@ -356,13 +356,14 @@ export class SerialBuffer {
                 result += ".";
             }
         }
-        if (result === ".............") {
-            return result;
-        }
-        while (result.endsWith(".")) {
-            result = result.substr(0, result.length - 1);
-        }
-        return result;
+
+        // We want receive empty string if no user id provided.
+        // if (result === ".............") {
+        //     return result;
+        // }
+
+        // Removes ending dots. "user...." => "user"
+        return result.replace(/\.+$/, '');
     }
 
     /** Append length-prefixed binary data */
