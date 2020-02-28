@@ -362,8 +362,12 @@ export class SerialBuffer {
         //     return result;
         // }
 
-        // Removes ending dots. "user...." => "user"
-        return result.replace(/\.+$/, '');
+        // Removes ending dots. "user........." => "user"
+        if (result.endsWith(".")) {
+            result = result.replace(/\.+$/, "");
+        }
+
+        return result;
     }
 
     /** Append length-prefixed binary data */
